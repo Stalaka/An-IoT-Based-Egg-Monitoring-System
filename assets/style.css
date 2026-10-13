@@ -1,0 +1,31 @@
+:root{--navy:#14213d;--gold:#fca311;--teal:#2a9d8f;--bg:#f4f6f8;--red:#d62828;--green:#2a9d8f}
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:#222}
+.topbar{background:var(--navy);color:#fff;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:10px 20px}
+.brand{font-weight:700;font-size:1.15rem;color:var(--gold)}
+nav a{color:#fff;text-decoration:none;margin-right:14px}
+nav a:hover{color:var(--gold)}
+.who{opacity:.75;margin-right:14px;font-size:.9rem}
+.container{max-width:1050px;margin:24px auto;padding:0 16px}
+.card{background:#fff;border-radius:10px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:18px}
+.card h2,.card h3{margin-top:0;color:var(--navy)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.metric{text-align:center}
+.metric .val{font-size:2rem;font-weight:700;color:var(--navy)}
+.metric .lbl{color:#666;font-size:.85rem}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.8rem;font-weight:600;color:#fff}
+.badge.ok{background:var(--green)}.badge.warn{background:var(--red)}.badge.off{background:#888}
+label{display:block;margin:10px 0 4px;font-weight:600;font-size:.9rem}
+input,select{width:100%;padding:9px;border:1px solid #ccc;border-radius:6px;font-size:1rem}
+button,.btn{background:var(--navy);color:#fff;border:0;padding:9px 16px;border-radius:6px;cursor:pointer;font-size:.95rem;text-decoration:none;display:inline-block}
+button:hover,.btn:hover{background:var(--teal)}
+button.danger{background:var(--red)}
+table{width:100%;border-collapse:collapse}
+th,td{padding:8px 10px;border-bottom:1px solid #e5e5e5;text-align:left;font-size:.92rem}
+th{background:#eef1f5;color:var(--navy)}
+.flash{padding:10px 14px;border-radius:6px;margin-bottom:16px}
+.flash.ok{background:#d8f3ee;color:#116a5e}.flash.err{background:#fde2e2;color:#8c1d1d}
+.narrow{max-width:420px;margin:40px auto}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row>div{flex:1;min-width:150px}
+.alertlist li{color:var(--red);margin:4px 0}
+small.muted{color:#777}
