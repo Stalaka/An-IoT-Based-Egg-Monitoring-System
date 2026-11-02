@@ -21,20 +21,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: dashboard.php');
         exit;
     }
-    $error = 'Wrong email or password.';   // same message for both cases, so attackers learn nothing
+    $error = 'Wrong email or password. Check both and try again.';   // same message for both, so attackers learn nothing
 }
-$pageTitle = 'Login';
+$layout    = 'auth';
+$pageTitle = 'Log in';
 require __DIR__ . '/partials/header.php';
 ?>
-<div class="card narrow">
-  <h2>Log in</h2>
-  <?php if ($error): ?><div class="flash err"><?= e($error) ?></div><?php endif; ?>
-  <form method="post">
-    <?= csrf_field() ?>
-    <label>Email</label><input type="email" name="email" required autofocus>
-    <label>Password</label><input type="password" name="password" required>
-    <p><button type="submit">Log in</button></p>
-  </form>
-  <p>No account? <a href="register.php">Register here</a></p>
-</div>
+<h1>Log in</h1>
+<p class="sub">Use the email and password you registered with.</p>
+<?php if ($error): ?><div class="flash err" role="alert"><?= e($error) ?></div><?php endif; ?>
+<form method="post">
+  <?= csrf_field() ?>
+  <div class="field"><label for="email">Email</label><input id="email" type="email" name="email" autocomplete="username" required autofocus></div>
+  <div class="field"><label for="password">Password</label><input id="password" type="password" name="password" autocomplete="current-password" required></div>
+  <button type="submit">Log in</button>
+</form>
+<p class="switch">New here? <a href="register.php">Create an account</a></p>
 <?php require __DIR__ . '/partials/footer.php';

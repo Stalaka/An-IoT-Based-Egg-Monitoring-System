@@ -1,5 +1,6 @@
 <?php
-
+// Admin-only test page: saves a FAKE reading so the dashboard can be tested without the hardware.
+// Always tell your audience this is simulated data.
 require_once __DIR__ . '/auth.php';
 require_role(['admin']);
 
@@ -21,10 +22,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 $pageTitle = 'Simulator';
+$pageSub   = 'Save a fake reading to test the dashboard without the device.';
 require __DIR__ . '/partials/header.php';
 ?>
 <div class="card">
-  <h2>Save a simulated sensor reading</h2>
+  <h2>Save a simulated reading</h2>
   <p><small class="muted">Data from this page is <strong>simulated</strong>, not from the sensors. The real ESP8266 sends data to api/telemetry.php.</small></p>
   <form method="post">
     <?= csrf_field() ?>
@@ -34,8 +36,8 @@ require __DIR__ . '/partials/header.php';
       <div><label>Air quality (raw)</label><input name="air_quality" type="number" value="250"></div>
     </div>
     <p><button type="submit">Save reading</button>
-       <button type="submit" name="preset" value="normal">Normal preset</button>
-       <button type="submit" name="preset" value="hot">Hot / bad-air preset (triggers alerts)</button></p>
+       <button class="ghost" type="submit" name="preset" value="normal">Normal reading</button>
+       <button class="ghost" type="submit" name="preset" value="hot">Hot, stuffy store room</button></p>
   </form>
 </div>
 <?php require __DIR__ . '/partials/footer.php';

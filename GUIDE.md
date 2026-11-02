@@ -117,7 +117,7 @@ Sales cannot be edited or deleted on purpose. A sales record is a ledger: if it 
 **Stock demo:**
 1. **Stock** > fill **Batch reference**, **Crates in stock**, **Price per crate (KES)**, **Low-stock alert at (crates)**, **Date received** > **Add batch**.
 2. Click **Edit** on the batch, change the crates, **Save changes**.
-3. A batch at or below its alert level shows a red **LOW** badge.
+3. A batch at or below its alert level shows a red **Low** badge.
 
 **Sales demo:**
 1. **Sales** > choose a **Stock batch** > type **Crates sold** > **Save sale**.
@@ -186,9 +186,9 @@ git push
 ### 7A. Test with no hardware (Simulator)
 
 1. Log in as admin > **Simulator**.
-2. Click **Normal preset**. Go to **Dashboard**: green **ALL OK**, temperature 22.5, humidity 65, air 250.
-3. Back on **Simulator**, click **Hot / bad-air preset**. The Dashboard shows a red **ALERT** with three messages (temperature too high, humidity too low, air quality too high).
-4. If no reading arrives for 60 seconds, the badge turns grey: **DEVICE OFFLINE**.
+2. Click **Normal reading**. Go to **Dashboard**: a yellow egg, the badge **All clear**, the headline "Storage conditions are safe.", and temperature 22.5, humidity 65, air 250.
+3. Back on **Simulator**, click **Hot, stuffy store room**. The egg turns red, the badge says **Attention needed**, and three messages explain why (temperature too high, humidity too low, air quality too high).
+4. If no reading arrives for 60 seconds, the egg turns grey and the headline says "The device is offline."
 
 Tell your audience that Simulator data is simulated. The Simulator writes straight into the `telemetry_logs` table.
 
@@ -213,6 +213,8 @@ Also try **http://localhost/egg-monitor/api/latest.php** while logged in. It sho
 ---
 
 ## Part 8: Arduino IDE and the ESP8266
+
+> **No hardware? Use the online simulator.** Follow `WOKWI_GUIDE.md` instead of Part 8 for the Arduino section of your demo.
 
 **Expected result:** the NodeMCU sends a reading every 10 seconds and the dashboard shows it.
 
@@ -300,11 +302,14 @@ Your laptop's IP can change each time you reconnect. If readings stop, re-run `i
 | `config.php` | Database login, API key, alert limits |
 | `db.php` | One shared database connection |
 | `auth.php` | Sessions, role checks, CSRF tokens |
+| `index.php` | Public home page for visitors (signed-in users go to the dashboard) |
 | `login.php`, `register.php`, `logout.php` | User authentication module |
 | `users.php`, `stock.php`, `sales.php` | CRUD pages (sales ledger module) |
 | `api/telemetry.php` | IoT telemetry ingestion module |
 | `dashboard.php`, `lib.php` | Dashboard alert module (PHP builds the page and the SVG chart) |
 | `simulate.php` | Admin test tool for demos without hardware |
+| `ui.php`, `partials/` | Page layouts (home, login, app with sidebar), the egg mark, and the safe-range bars |
+| `assets/style.css`, `assets/fonts/` | The whole look: colours, spacing, and the bundled Public Sans font (works offline) |
 | `arduino/egg_monitor/egg_monitor.ino` | ESP8266 firmware |
 | `database/schema.sql` | Database structure and starter data |
 
@@ -344,8 +349,8 @@ Your laptop's IP can change each time you reconnect. If readings stop, re-run `i
 | "Database error" or blank page | MySQL is not started, or `schema.sql` was not imported (Part 2). |
 | `404 Not Found` | The folder is not at `C:\xampp\htdocs\egg-monitor`. |
 | Cannot log in as admin | Re-import `schema.sql`, or use the password you set after the demo. |
-| Dashboard says NO DATA YET | No reading saved yet. Use the Simulator. |
-| Dashboard says DEVICE OFFLINE | Nothing arrived in the last 60 seconds. Check the Serial Monitor. |
+| Dashboard says "No readings yet." | No reading saved yet. Use the Simulator. |
+| Dashboard says "The device is offline." | Nothing arrived in the last 60 seconds. Check the Serial Monitor. |
 | `git push` is rejected | Check the `git remote add origin` URL and that you are signed in to GitHub. |
 
 ---
@@ -357,3 +362,16 @@ Your laptop's IP can change each time you reconnect. If readings stop, re-run `i
 - The dashboard refreshes the whole page every 5 seconds instead of updating live.
 - Sensor values depend on correct wiring, warm-up time and calibration.
 - The default admin password `Admin@123` must be changed after the demo.
+
+---
+
+## Part 14: The design, in plain words (if your lecturer asks)
+
+- **Three layouts:** a public home page for visitors, a split login and register page, and a signed-in app with a sidebar.
+- **One idea:** the egg is the logo and also the status light. Yellow means all clear, red means attention needed, grey means the device is offline. Colour is never the only signal: the badge and headline say it in words too.
+- **Each reading is shown against its safe range:** the pale green band is the safe range and the bar shows where the current value sits.
+- **Charts have dashed red limit lines**, so you can see when a reading crossed the limit.
+- **Honest labels:** readings from the Simulator or Wokwi show a "Simulated data" tag, and the example on the home page says it is not live.
+- **Works on a phone:** the sidebar becomes a top bar, and the charts switch to a narrower version so the text stays readable.
+- **No JavaScript at all.** The page refreshes itself with a simple HTML refresh tag, and PHP draws the charts as SVG.
+- **Colours** are the navy and gold of your proposal deck. The font is Public Sans, stored in `assets/fonts` so it looks the same without internet.

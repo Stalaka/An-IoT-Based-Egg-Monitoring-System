@@ -1,5 +1,5 @@
 <?php
-
+// CRUD for users (admin only): Create, Read, Update, Delete.
 require_once __DIR__ . '/auth.php';
 require_role(['admin']);
 
@@ -72,17 +72,18 @@ if (isset($_GET['edit'])) {
 $users = db()->query('SELECT id, full_name, email, role, created_at FROM users ORDER BY id')->fetchAll();
 
 $pageTitle = 'Users';
+$pageSub   = 'Add people, change roles and reset passwords.';
 require __DIR__ . '/partials/header.php';
 ?>
 <?php if ($confirm): ?>
-<div class="card" style="border-left:5px solid var(--red)">
+<div class="card warn-card">
   <h2>Delete this user?</h2>
   <p>You are about to delete <strong><?= e($confirm['full_name']) ?></strong>. This cannot be undone.</p>
   <form method="post" style="display:inline">
     <?= csrf_field() ?><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?= (int)$confirm['id'] ?>">
     <button class="danger" type="submit">Yes, delete</button>
   </form>
-  <a class="btn" href="users.php">Cancel</a>
+  <a class="btn ghost" href="users.php">Cancel</a>
 </div>
 <?php endif; ?>
 
@@ -105,24 +106,26 @@ require __DIR__ . '/partials/header.php';
         <input type="password" name="password" <?= $edit ? '' : 'required' ?>></div>
     </div>
     <p><button type="submit"><?= $edit ? 'Save changes' : 'Add user' ?></button>
-       <?php if ($edit): ?> <a class="btn" href="users.php">Cancel</a><?php endif; ?></p>
+       <?php if ($edit): ?><a class="btn ghost" href="users.php">Cancel</a><?php endif; ?></p>
   </form>
 </div>
 
 <div class="card">
   <h2>All users</h2>
+  <div class="table-wrap">
   <table>
     <tr><th>ID</th><th>Name</th><th>Email</th><th>Role</th><th>Created</th><th>Actions</th></tr>
     <?php foreach ($users as $u): ?>
     <tr>
       <td><?= $u['id'] ?></td><td><?= e($u['full_name']) ?></td><td><?= e($u['email']) ?></td>
       <td><?= e($u['role']) ?></td><td><?= e($u['created_at']) ?></td>
-      <td>
+      <td class="actions">
         <a href="users.php?edit=<?= $u['id'] ?>">Edit</a>
-        <?php if ($u['id'] !== current_user()['id']): ?> | <a href="users.php?delete=<?= $u['id'] ?>">Delete</a><?php endif; ?>
+        <?php if ($u['id'] !== current_user()['id']): ?><a class="danger" href="users.php?delete=<?= $u['id'] ?>">Delete</a><?php endif; ?>
       </td>
     </tr>
     <?php endforeach; ?>
   </table>
+  </div>
 </div>
 <?php require __DIR__ . '/partials/footer.php';

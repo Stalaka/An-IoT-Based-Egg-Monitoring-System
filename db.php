@@ -1,5 +1,5 @@
 <?php
-
+// One shared database connection (PDO) used by every page.
 require_once __DIR__ . '/config.php';
 
 function db(): PDO {

@@ -32,20 +32,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-$pageTitle = 'Register';
+$layout    = 'auth';
+$pageTitle = 'Create account';
 require __DIR__ . '/partials/header.php';
 ?>
-<div class="card narrow">
-  <h2>Create account</h2>
-  <?php foreach ($errors as $er): ?><div class="flash err"><?= e($er) ?></div><?php endforeach; ?>
-  <form method="post" autocomplete="off">
-    <?= csrf_field() ?>
-    <label>Full name</label><input name="full_name" value="<?= e($name) ?>" required>
-    <label>Email</label><input type="email" name="email" value="<?= e($email) ?>" required>
-    <label>Password (min 8 characters)</label><input type="password" name="password" required>
-    <label>Confirm password</label><input type="password" name="confirm" required>
-    <p><button type="submit">Register</button></p>
-  </form>
-  <p>Already registered? <a href="login.php">Log in</a></p>
-</div>
+<h1>Create an account</h1>
+<p class="sub">New accounts are vendor accounts. An admin can change your role later.</p>
+<?php foreach ($errors as $er): ?><div class="flash err" role="alert"><?= e($er) ?></div><?php endforeach; ?>
+<form method="post" autocomplete="off">
+  <?= csrf_field() ?>
+  <div class="field"><label for="full_name">Full name</label><input id="full_name" name="full_name" value="<?= e($name) ?>" required></div>
+  <div class="field"><label for="email">Email</label><input id="email" type="email" name="email" value="<?= e($email) ?>" required></div>
+  <div class="field"><label for="password">Password (at least 8 characters)</label><input id="password" type="password" name="password" autocomplete="new-password" required></div>
+  <div class="field"><label for="confirm">Confirm password</label><input id="confirm" type="password" name="confirm" autocomplete="new-password" required></div>
+  <button type="submit">Create account</button>
+</form>
+<p class="switch">Already registered? <a href="login.php">Log in</a></p>
 <?php require __DIR__ . '/partials/footer.php';

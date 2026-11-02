@@ -1,4 +1,5 @@
 <?php
+// Sales ledger (admin and vendor). A sale also reduces stock, inside ONE database transaction.
 require_once __DIR__ . '/auth.php';
 require_role(['admin', 'vendor']);
 
@@ -44,6 +45,7 @@ $recent  = db()->query('SELECT s.id, s.sold_at, b.batch_ref, s.crates_sold, s.un
                         ORDER BY s.id DESC LIMIT 15')->fetchAll();
 
 $pageTitle = 'Sales';
+$pageSub   = 'Record each sale. Stock goes down automatically.';
 require __DIR__ . '/partials/header.php';
 ?>
 <div class="card">
@@ -68,6 +70,7 @@ require __DIR__ . '/partials/header.php';
 
 <div class="card">
   <h2>Recent sales</h2>
+  <div class="table-wrap">
   <table>
     <tr><th>#</th><th>Time</th><th>Batch</th><th>Crates</th><th>Unit price</th><th>Total</th><th>Recorded by</th></tr>
     <?php foreach ($recent as $r): ?>
@@ -75,5 +78,6 @@ require __DIR__ . '/partials/header.php';
         <td><?= number_format($r['unit_price'], 2) ?></td><td><?= number_format($r['total'], 2) ?></td><td><?= e($r['full_name']) ?></td></tr>
     <?php endforeach; ?>
   </table>
+  </div>
 </div>
 <?php require __DIR__ . '/partials/footer.php';

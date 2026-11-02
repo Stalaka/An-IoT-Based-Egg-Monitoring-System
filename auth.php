@@ -1,5 +1,5 @@
 <?php
-
+// Session, login checks, role checks, CSRF protection and one-time messages.
 require_once __DIR__ . '/db.php';
 if (session_status() === PHP_SESSION_NONE) { session_start(); }
 

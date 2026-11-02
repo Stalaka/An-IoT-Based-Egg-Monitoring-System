@@ -1,5 +1,5 @@
 <?php
-
+// CRUD for stock batches (admin and supplier).
 require_once __DIR__ . '/auth.php';
 require_role(['admin', 'supplier']);
 
@@ -60,17 +60,18 @@ if (isset($_GET['edit'])) {
 $rows = db()->query('SELECT * FROM stock_registers ORDER BY id DESC')->fetchAll();
 
 $pageTitle = 'Stock';
+$pageSub   = 'Record egg batches and set when to warn about low stock.';
 require __DIR__ . '/partials/header.php';
 ?>
 <?php if ($confirm): ?>
-<div class="card" style="border-left:5px solid var(--red)">
+<div class="card warn-card">
   <h2>Delete this stock batch?</h2>
   <p>You are about to delete <strong><?= e($confirm['batch_ref']) ?></strong>. This cannot be undone.</p>
   <form method="post" style="display:inline">
     <?= csrf_field() ?><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?= (int)$confirm['id'] ?>">
     <button class="danger" type="submit">Yes, delete</button>
   </form>
-  <a class="btn" href="stock.php">Cancel</a>
+  <a class="btn ghost" href="stock.php">Cancel</a>
 </div>
 <?php endif; ?>
 
@@ -88,12 +89,13 @@ require __DIR__ . '/partials/header.php';
       <div><label>Date received</label><input type="date" name="received_date" value="<?= e($edit['received_date'] ?? date('Y-m-d')) ?>" required></div>
     </div>
     <p><button type="submit"><?= $edit ? 'Save changes' : 'Add batch' ?></button>
-       <?php if ($edit): ?> <a class="btn" href="stock.php">Cancel</a><?php endif; ?></p>
+       <?php if ($edit): ?><a class="btn ghost" href="stock.php">Cancel</a><?php endif; ?></p>
   </form>
 </div>
 
 <div class="card">
   <h2>Stock register</h2>
+  <div class="table-wrap">
   <table>
     <tr><th>ID</th><th>Batch</th><th>Crates</th><th>Price/crate</th><th>Alert at</th><th>Received</th><th>Status</th><th>Actions</th></tr>
     <?php foreach ($rows as $r): $isLow = $r['crates_in_stock'] <= $r['low_stock_level']; ?>
@@ -101,10 +103,11 @@ require __DIR__ . '/partials/header.php';
       <td><?= $r['id'] ?></td><td><?= e($r['batch_ref']) ?></td><td><?= $r['crates_in_stock'] ?></td>
       <td><?= number_format($r['price_per_crate'], 2) ?></td><td><?= $r['low_stock_level'] ?></td>
       <td><?= e($r['received_date']) ?></td>
-      <td><span class="badge <?= $isLow ? 'warn' : 'ok' ?>"><?= $isLow ? 'LOW' : 'OK' ?></span></td>
-      <td><a href="stock.php?edit=<?= $r['id'] ?>">Edit</a> | <a href="stock.php?delete=<?= $r['id'] ?>">Delete</a></td>
+      <td><span class="badge <?= $isLow ? 'warn' : 'ok' ?>"><?= $isLow ? 'Low' : 'OK' ?></span></td>
+      <td class="actions"><a href="stock.php?edit=<?= $r['id'] ?>">Edit</a><a class="danger" href="stock.php?delete=<?= $r['id'] ?>">Delete</a></td>
     </tr>
     <?php endforeach; ?>
   </table>
+  </div>
 </div>
 <?php require __DIR__ . '/partials/footer.php';
