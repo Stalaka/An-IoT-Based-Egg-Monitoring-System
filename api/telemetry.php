@@ -1,9 +1,6 @@
 <?php
-// IoT Telemetry Ingestion Module: receives JSON from the NodeMCU through an HTTP POST.
-//
-//   POST  http://<laptop-ip>/egg-monitor/api/telemetry.php
-//   Header  X-API-KEY: <same value as API_KEY in config.php>
-//   Body    {"device_id":"nodemcu-01","temperature":24.5,"humidity":62.1,"air_quality":310}
+require_once __DIR__ . '/../db.php';
+header('Content-Type: application/json');
 require_once __DIR__ . '/../db.php';
 header('Content-Type: application/json');
 
@@ -15,7 +12,7 @@ function reply(int $code, array $body): void {
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') reply(405, ['ok' => false, 'error' => 'Use POST']);
 
-// Read the API key header (works on normal XAMPP; the fallback covers other Apache setups).
+
 $key = $_SERVER['HTTP_X_API_KEY'] ?? '';
 if ($key === '' && function_exists('getallheaders')) {
     foreach (getallheaders() as $name => $value) {
