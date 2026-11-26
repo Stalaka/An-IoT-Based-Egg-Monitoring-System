@@ -16,8 +16,6 @@ require __DIR__ . '/partials/header.php';
         <a class="btn lg" href="login.php">Log in</a>
         <a class="btn ghost lg" href="register.php">Create account</a>
       </div>
-      <p class="note">Final-year project prototype. Log in to see live readings.</p>
-    </div>
 
     <div class="plate on-ink" aria-label="Example reading">
       <div class="egg-wrap"><?= egg_mark(92, 'is-ok glow') ?></div>
