@@ -1,9 +1,9 @@
 <?php
-// Session, login checks, role checks, CSRF protection and one-time messages.
+
 require_once __DIR__ . '/db.php';
 if (session_status() === PHP_SESSION_NONE) { session_start(); }
 
-// Escape text before printing it in HTML (stops script injection).
+
 function e($v): string { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
 
 function current_user(): ?array { return $_SESSION['user'] ?? null; }

@@ -1,5 +1,5 @@
 <?php
-// Sales ledger (admin and vendor). A sale also reduces stock, inside ONE database transaction.
+
 require_once __DIR__ . '/auth.php';
 require_role(['admin', 'vendor']);
 
@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         if ($qty === false || $qty < 1) throw new RuntimeException('Enter a whole number of crates (1 or more).');
 
-        $pdo->beginTransaction();                       // all-or-nothing: sale row + stock deduction
+        $pdo->beginTransaction();                       
         $st = $pdo->prepare('SELECT crates_in_stock, price_per_crate FROM stock_registers WHERE id=? FOR UPDATE');
         $st->execute([$stockId]);
         $batch = $st->fetch();

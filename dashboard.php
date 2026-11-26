@@ -5,9 +5,9 @@ require_login();
 
 $d = dashboard_data();
 $l = $d['latest'];
-$state = $d['status'];                       // ok | warn | off
+$state = $d['status'];                       
 
-// One plain sentence that tells the story of the store room.
+
 if (!$l) {
     $headline = 'No readings yet.';
     $sub      = 'Start the device and its first reading will appear here.';
@@ -31,7 +31,7 @@ $simulated = $l && ($l['device_id'] === 'simulator' || strpos($l['device_id'], '
 $st = fn(string $flag): string => $d['online'] ? ($d['flags'][$flag] ? 'warn' : 'ok') : 'off';
 $v  = fn(string $k) => $l ? $l[$k] : null;
 
-$headExtra = '<meta http-equiv="refresh" content="5">';   // the page reloads itself every 5 seconds
+$headExtra = '<meta http-equiv="refresh" content="5">';   
 $pageTitle = 'Dashboard';
 $pageSub   = 'Latest readings from the store room. This page refreshes every 5 seconds.';
 require __DIR__ . '/partials/header.php';

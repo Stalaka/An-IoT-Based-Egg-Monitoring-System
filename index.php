@@ -1,5 +1,5 @@
 <?php
-// Public home page for visitors. Signed-in users go straight to the dashboard.
+
 require_once __DIR__ . '/auth.php';
 if (current_user()) { header('Location: dashboard.php'); exit; }
 

@@ -1,6 +1,6 @@
 <?php
-// Admin-only test page: saves a FAKE reading so the dashboard can be tested without the hardware.
-// Always tell your audience this is simulated data.
+
+
 require_once __DIR__ . '/auth.php';
 require_role(['admin']);
 

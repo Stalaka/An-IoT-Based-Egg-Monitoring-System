@@ -1,5 +1,5 @@
 <?php
-// CRUD for stock batches (admin and supplier).
+
 require_once __DIR__ . '/auth.php';
 require_role(['admin', 'supplier']);
 

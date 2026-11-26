@@ -1,5 +1,5 @@
 <?php
-// CRUD for users (admin only): Create, Read, Update, Delete.
+
 require_once __DIR__ . '/auth.php';
 require_role(['admin']);
 
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-// "Are you sure?" step for delete (done with a normal page, no JavaScript).
+
 $confirm = null;
 if (isset($_GET['delete'])) {
     $st = db()->prepare('SELECT id, full_name FROM users WHERE id=?');
@@ -62,7 +62,7 @@ if (isset($_GET['delete'])) {
     if ($confirm && (int)$confirm['id'] === current_user()['id']) $confirm = null;
 }
 
-// Load a row into the form when "Edit" is clicked.
+
 $edit = null;
 if (isset($_GET['edit'])) {
     $st = db()->prepare('SELECT id, full_name, email, role FROM users WHERE id=?');

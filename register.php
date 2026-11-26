@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($chk->fetch()) {
             $errors[] = 'That email is already registered.';
         } else {
-            // Public sign-up ALWAYS creates a vendor. Only an admin can create other roles.
+            
             $ins = db()->prepare('INSERT INTO users (full_name, email, password_hash, role) VALUES (?, ?, ?, "vendor")');
             $ins->execute([$name, $email, password_hash($pass, PASSWORD_DEFAULT)]);
             flash('Account created. You can now log in.');

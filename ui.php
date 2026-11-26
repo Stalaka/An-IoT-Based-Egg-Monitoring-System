@@ -1,6 +1,6 @@
 <?php
-// Small UI helpers: the egg mark, inline icons, number formatting and the range "instrument".
-// Pure PHP + inline SVG, so the site needs no JavaScript.
+
+
 
 function h($v): string { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
 
@@ -18,7 +18,7 @@ function ago(int $seconds): string {
     $dy = intdiv($seconds, 86400); return $dy . ($dy === 1 ? ' day' : ' days');
 }
 
-// The egg. Its colour comes from CSS (.egg-body), so it can show status.
+
 function egg_mark(int $width = 28, string $class = ''): string {
     $height = (int)round($width * 1.2);
     return '<svg class="egg ' . h($class) . '" width="' . $width . '" height="' . $height . '" viewBox="0 0 100 120" aria-hidden="true" focusable="false">'
@@ -39,11 +39,7 @@ function icon(string $name): string {
     return '<svg class="ico" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . ($p[$name] ?? '') . '</svg>';
 }
 
-/**
- * One reading shown against its safe range.
- * The pale band is the safe range, the bar is where the current value sits.
- * $state: ok | warn | off
- */
+
 function instrument(string $label, $value, string $unit, float $min, float $max, float $safeLo, float $safeHi,
                     int $dec, string $state, string $limitText, bool $dark = false): string {
     $span = max(0.0001, $max - $min);
